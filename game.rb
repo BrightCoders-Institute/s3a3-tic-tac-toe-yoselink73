@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Create class to control the game
 class Game
   def initialize(player1, player2)
     @board = [
