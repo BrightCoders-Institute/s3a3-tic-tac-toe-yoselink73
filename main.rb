@@ -2,10 +2,15 @@
 
 require_relative 'game'
 
+game = Game.new
 puts 'Jugador 1 elige entre "X" y "O" con que simbolo quieres jugar'
-player1 = $stdin.gets.chomp.upcase
-player2 = player1 == 'O' ? 'X' : 'O'
-puts "Jugador 2, tu simbolo es: \"#{player2}\""
+symbol = $stdin.gets.chomp
 
-game = Game.new(player1, player2)
+until game.assign_players(symbol)
+  puts 'Elige una opcion correcta'
+  symbol = $stdin.gets.chomp
+end
+puts "Jugador 1, tu simbolo es: \"#{game.player1}\""
+puts "Jugador 2, tu simbolo es: \"#{game.player2}\""
+
 game.print_board

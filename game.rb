@@ -2,14 +2,14 @@
 
 # Create class to control the game
 class Game
-  def initialize(player1, player2)
+  attr_accessor :player1, :player2
+
+  def initialize
     @board = [
       [' ', ' ', ' '],
       [' ', ' ', ' '],
       [' ', ' ', ' ']
     ]
-    @player1 = player1
-    @player2 = player2
   end
 
   def print_board
@@ -17,5 +17,13 @@ class Game
       puts row.join('|')
       puts '_ _ _' unless @board.length == i + 1
     end
+  end
+
+  def assign_players(initial_symbol)
+    initial_symbol = initial_symbol.upcase
+    return false unless %w[O X].include? initial_symbol
+
+    @player1 = initial_symbol
+    @player2 = @player1 == 'O' ? 'X' : 'O'
   end
 end
