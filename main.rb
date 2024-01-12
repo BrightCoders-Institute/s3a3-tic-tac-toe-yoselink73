@@ -15,20 +15,31 @@ puts "Jugador 2, tu simbolo es: \"#{game.player2}\""
 
 game.print_board
 
-puts 'Jugador 1, elije una casilla'
-position = $stdin.gets.chomp.to_i
-until game.play_turn(game.player1, position)
-  game.print_board
-  puts 'Elige una casilla libre'
+until game.game_over?
+  puts 'Jugador 1, elije una casilla'
   position = $stdin.gets.chomp.to_i
-end
-game.print_board
+  until game.play_turn(game.player1, position)
+    game.print_board
+    puts 'Elige una casilla libre'
+    position = $stdin.gets.chomp.to_i
+  end
+  game.print_board
 
-puts 'Jugador 2, elije una casilla'
-position = $stdin.gets.chomp.to_i
-until game.play_turn(game.player2, position)
-  game.print_board
-  puts 'Elige una casilla libre'
+  break if game.game_over?
+
+  puts 'Jugador 2, elije una casilla'
   position = $stdin.gets.chomp.to_i
+  until game.play_turn(game.player2, position)
+    game.print_board
+    puts 'Elige una casilla libre'
+    position = $stdin.gets.chomp.to_i
+  end
+  game.print_board
 end
-game.print_board
+
+if game.winner
+  puts "#{game.winner} gano el juego"
+else
+  puts 'Juego empatado'
+end
+puts "Game Over!\n"

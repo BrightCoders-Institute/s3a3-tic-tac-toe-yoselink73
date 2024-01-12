@@ -2,7 +2,7 @@
 
 # Create class to control the game
 class Game
-  attr_accessor :player1, :player2, :board
+  attr_accessor :player1, :player2, :board, :winner
 
   def initialize
     @board = [
@@ -46,5 +46,58 @@ class Game
     return 1 if [2, 5, 8].include? position
 
     2 if [3, 6, 9].include? position
+  end
+
+  def game_over?
+    check_rows
+    check_columns
+    check_diagonals
+    return true if @winner
+    return true if full_board?
+
+    false
+  end
+
+  def full_board?
+    string_board = ''
+    @board.each do |row|
+      string_board += row.join('')
+    end
+    string_board.chars.all? { |char| %w[O X].include? char }
+  end
+
+  def check_rows
+    @board.each do |row|
+      @winner = 'O' if row.join('').chars.all? { |char| char == 'O' }
+      @winner = 'X' if row.join('').chars.all? { |char| char == 'X' }
+    end
+  end
+
+  def check_columns
+    3.times do |column|
+      column_string = ''
+      3.times do |row|
+        column_string += @board[row][column]
+      end
+      @winner = 'O' if column_string.chars.all? { |char| char == 'O' }
+      @winner = 'X' if column_string.chars.all? { |char| char == 'X' }
+    end
+  end
+
+  def check_diagonals
+    first_diagonal = ''
+    3.times do |index|
+      first_diagonal += @board[index][index]
+    end
+    @winner = 'O' if first_diagonal.chars.all? { |char| char == 'O' }
+    @winner = 'X' if first_diagonal.chars.all? { |char| char == 'X' }
+
+    second_diagonal = ''
+    3.times do |row|
+      column = 2 - row
+      second_diagonal += @board[row][column]
+    end
+    @winner = 'O' if second_diagonal.chars.all? { |char| char == 'O' }
+    @winner = 'X' if second_diagonal.chars.all? { |char| char == 'X' }
   end
 end
